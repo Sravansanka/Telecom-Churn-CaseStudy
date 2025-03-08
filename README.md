@@ -1,5 +1,5 @@
 # 📞 Telecom Churn Prediction Case Study
-
+### Authors - Sravana Kumar Sanka & Srikrishna Jana
 ## 📝 Problem Statement
 
 In the competitive telecom industry, customers frequently switch service providers, resulting in an average **15-25% annual churn rate**. Given that acquiring a new customer is **5-10 times more expensive** than retaining an existing one, customer retention has become a top priority.
