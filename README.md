@@ -1,139 +1,97 @@
-# Telecom-Churn-Case-Study
+# 📞 Telecom Churn Prediction Case Study
 
-# Overview
-This case study focuses on predicting customer churn in the telecommunications industry using customer usage data from a leading telecom firm. The objective is to build predictive models to identify customers at high risk of churn and identify the main indicators of churn. The analysis considers high-value customers only, as they contribute significantly to the revenue.
+## 📝 Problem Statement
 
-# Business Objective
-Predict customer churn in the ninth month using data from the first three months. The goal is to reduce churn of high-value customers and prevent revenue leakage.
+In the competitive telecom industry, customers frequently switch service providers, resulting in an average **15-25% annual churn rate**. Given that acquiring a new customer is **5-10 times more expensive** than retaining an existing one, customer retention has become a top priority.
 
-# Dataset
-The dataset contains customer-level information for four consecutive months - June, July, August, and September (encoded as 6, 7, 8, and 9, respectively).
-# Analysis steps
+### 🔍 Business Objective
+The primary goal of this case study is to build a **machine learning model** that predicts high-risk churn customers based on usage patterns. This enables proactive retention strategies to reduce customer loss.
 
-**Data Cleaning and EDA (Exploratory Data Analysis)**
+## 🎯 Key Objectives
+1. **Predict High-Value Customer Churn:** Identify customers likely to churn in the near future, enabling targeted offers and discounts.
+2. **Identify Important Predictors:** Pinpoint key variables influencing churn, revealing insights into customer behavior.
+3. **Recommend Churn Management Strategies:** Develop actionable recommendations based on model insights.
 
-**Import Necessary Packages and Libraries:**  Loaded the dataset into a dataframe.
+---
 
-**Check Data Types and Null Values:** Identified columns with incorrect data types and checked for missing values.
+## 📊 Customer Lifecycle Phases
 
-**Handle Duplicates and Unique Identifiers:** Checked for duplicate records and set 'mobile_number' as the unique identifier.
+Customers typically transition through three phases before churning:
 
-**Column Renaming and Data Type Conversion:** Renamed columns for consistency and converted columns to appropriate data types.
+1. **Good Phase:** The customer is satisfied and shows no signs of switching.
+2. **Action Phase:** The customer exhibits early dissatisfaction signs — reduced engagement, declining usage, etc. This is the ideal intervention window.
+3. **Churn Phase:** The customer finally decides to leave the service provider.
 
-**Filter High-Value Customers:** Selected customers whose 'Average_rech_amt' in months 6 and 7 are greater than or equal to the 70th percentile.
+**In this dataset:**
+- **Months 6 and 7** represent the **good phase**.
+- **Month 8** is the **action phase**.
+- **Month 9 (September)** is the **churn phase**.
 
-**Handle Missing Values:** Dropped columns with more than 50% missing values and imputed meaningful columns.
+---
 
-**Drop Irrelevant Columns:** Removed columns with only one unique value and those related to the churn phase (month 9).
+## 🔧 Data Preprocessing Using ColumnTransformer and Pipeline
 
-**Tag Churn Variable:** Labeled the target variable for churn prediction.
+This project employs a robust and production-ready approach to data preprocessing using `ColumnTransformer` and `Pipeline` from scikit-learn.
 
-**Final Dataset:** Retained 30,011 rows and 126 columns.
+### 🚀 Why Pipeline Approach?
+✅ Ensures consistent transformations for both training and test data.  
+✅ Enhances modularity and makes code easier to maintain.  
+✅ Reduces the risk of data leakage by centralizing all transformations.  
+✅ Boosts scalability and ensures production readiness.  
 
-# Exploratory Data Analysis (EDA)
- * Analyzed customer usage patterns and identified key indicators of churn.
+### 🔹 Key Preprocessing Steps
+- **Custom Feature Engineering:** Creating new features from date columns and handling missing values.  
+- **Imputation:** Managing missing values with `SimpleImputer`.  
+- **Dropping Unnecessary Columns:** Removing irrelevant data.  
+- **Passthrough:** Retaining unchanged columns as-is.  
 
- * Performed correlation analysis and created derived variables.
+This streamlined approach ensures data undergoes the same transformations throughout the entire pipeline, improving reliability and reproducibility.
 
- * Handled outliers by capping them at the 99th percentile.
+---
 
- * Created dummy variables for categorical data.
- 
-# Pre-processing Steps
+## 📈 Models and Evaluation Metrics
 
-**Train-Test Split:** Divided the data into training and testing sets.
+### 🔎 For Objectives 2 & 3 (Feature Importance & Recommendations)
+**Interpretative Models:** Designed to provide insights into churn factors.  
+- **F1 Score** is the chosen metric, balancing precision and recall to ensure insights are actionable and meaningful.
 
-**Handle Class Imbalance:** Used the SMOTE technique to balance the classes.
+### 🔮 For Objective 1 (Churn Prediction)
+**Predictive Models:** Focused on accurately predicting customer churn.  
+- **Accuracy** is the primary metric for ensuring reliable predictions across both churners and non-churners.
 
-**Standardize Predictors:** Standardized predictor columns to mean 0 and standard deviation 1.
+---
 
-# Modeling
-# Model 1: Logistic Regression with RFE & Manual Elimination
-  Identified the most important predictors of churn and their coefficients.
-  
-# Model 2: PCA + Logistic Regression  
-**Train Performance:**
+## 📌 Key Insights and Recommendations
 
-* Accuracy: 0.627
+### 🔺 Top 10 Positive Contributors (Increase Churn Risk)
+1. **Low ARPU in Action Phase**  
+2. **Decline in Outgoing On-Net Calls (MOU)**  
+3. **Reduced Outgoing ISD Calls (MOU)**  
+4. **Lower Incoming Off-Net Calls (MOU)**  
+5. **Decrease in Total Outgoing Call Usage (MOU)**  
+6. **Drop in Outgoing Local Calls (MOU)**  
+7. **Smaller Last Recharge Amount**  
+8. **Reduced Incoming On-Net Calls (MOU)**  
+9. **Lower Incoming Off-Net Minutes of Use (MOU)**  
+10. **Decreased Total Recharge Amount**
 
-* Sensitivity: 0.918
+### 🟩 Top 10 Negative Contributors (Decrease Churn Risk)
+1. **Increasing Trend in Total Recharge Amount**  
+2. **Higher Outgoing Local Calls (MOU)**  
+3. **Active Local Incoming Calls (MOU)**  
+4. **Rising Outgoing ISD Calls (MOU)**  
+5. **Higher Data Usage (MB)**  
+6. **Increased Outgoing On-Net Calls (MOU)**  
+7. **Large Recharge Amounts**  
+8. **Frequent Incoming On-Net Calls (MOU)**  
 
-* Specificity: 0.599
+### 📢 Recommendations
+1. **Proactive Interventions:** Offer tailored incentives to customers showing early signs of churn.  
+2. **Targeted Campaigns:** Prioritize high-value customers with declining usage patterns.  
+3. **Customer Monitoring:** Automate alerts for critical behavioral shifts, enabling timely actions.
 
-* Precision: 0.179
+---
 
-* F1-score: 0.3
-
-** Test Performance:**
-
-* Accuracy: 0.086
-
-* Sensitivity: 1.0
-
-* Specificity: 0.0
-
-* Precision: 0.086
-
-* F1-score: 0.158
-
-# Model 3: PCA + Random Forest Classifier
-**Train Performance:**
-
-* Accuracy: 0.882
-
-* Sensitivity: 0.816
-
-* Specificity: 0.888
-
-* Precision: 0.408
-
-* F1-score: 0.544
-
-**Test Performance:**
-
-Accuracy: 0.86
-
-Sensitivity: 0.80
-
-Specificity: 0.78
-
-Precision: 0.37
-
-F1-score: 0.51
-
-# Model 4: PCA + XGBoost
-**Train Performance:**
-
-* Accuracy: 0.873
-
-* Sensitivity: 0.887
-
-* Specificity: 0.872
-
-* Precision: 0.396
-
-* F1-score: 0.548
-
-**Test Performance:**
-
-* Accuracy: 0.086
-
-* Sensitivity: 1.0
-
-* Specificity: 0.0
-
-* Precision: 0.086
-
-* F1-score: 0.158
-
-# Recommendations
-**Indicator 1:** Concentrate on users with 1.27 standard deviations lower than average incoming calls from fixed line. They are most likely to churn.
-
-**Indicator 2:** Focus on users who recharge less number of times (less than 1.2 standard deviations compared to average) in the 8th month. They are second most likely to churn.
-
-**Model Choice:** Use the PCA + Logistic Regression model to predict churn, as it has an ROC score of 0.87 and test sensitivity of 100%.
-
-# Contributer
-* Sravana Sanka
-* Srikrishna Jana
-
+## 🏆 Model Selection
+For final submission, the **hyperparameter-tuned XGBoost model** was chosen due to its superior accuracy.  
+🔗 [Kaggle Leaderboard Link](https://www.kaggle.com/competitions/telecom-churn-case-study-hackathon-c-69/leaderboard)
